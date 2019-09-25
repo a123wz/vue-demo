@@ -14,10 +14,6 @@
           }
         }
     }
-    // exportExcel("/base/credit/record/creditRecordExport");
-    // exportExcel("http://127.0.0.1:8899/credit/record/creditRecordExport");
-    // exportExcel("/api/oms-credit-granting-app/credit/record/creditRecordExport");
-    // exportExcel("/api/oms-credit-granting-app/credit/record/creditRecordExport");
     function exportExcel(url, options = {}) {
       return new Promise((resolve, reject) => {
         console.log(`${url} 请求数据，参数=>`, JSON.stringify(options))
