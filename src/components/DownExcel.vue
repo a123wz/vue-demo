@@ -14,6 +14,18 @@
           }
         }
     }
+    var str2utf8 = window.TextEncoder ? function(str) {
+      var encoder = new TextEncoder('iso8859-1');
+      var bytes = encoder.encode(str);
+      var result = '';
+      for(var i = 0; i < bytes.length; ++i) {
+        result += String.fromCharCode(bytes[i]);
+      }
+      console.log("test")
+      return result;
+    } : function(str) {
+      return eval('\''+encodeURI(str).replace(/%/gm, '\\x')+'\'');
+    }
     function exportExcel(url, options = {}) {
       return new Promise((resolve, reject) => {
         console.log(`${url} 请求数据，参数=>`, JSON.stringify(options))
@@ -28,14 +40,20 @@
         }).then(
           response => {
             resolve(response.data)
+            console.log(response);
             console.log(response.headers['content-disposition'])
-            console.log("返回数据:{}",response.data)
             console.log("返回数据type:{}",response.data.type)
             let blob = new Blob([response.data], {
               type: 'application/vnd.ms-excel'
             })
+
+
+            // let objectUrl = URL.createObjectURL(blob);  //生成一个url
+            // window.location.href = objectUrl;   //浏览器打开这个url
+
             console.log(blob)
-            let fileName = "八摄氏度"+Date.parse(new Date()) + '.xls'
+            let fileName = response.headers['content-disposition'].replace("attachment;filename=","")
+            console.log("文件名:",str2utf8(fileName));
             if (window.navigator.msSaveOrOpenBlob) {
               // console.log(2)
               navigator.msSaveBlob(blob, fileName)

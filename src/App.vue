@@ -1,5 +1,7 @@
 <template>
   <div id="app">
+    <CarouselList></CarouselList>
+    <FormTest></FormTest>
     <img src="./assets/logo.png">
     <router-link to="/foo">Go to Foo</router-link>
     <router-link to="/bar">Go to Bar</router-link>
@@ -12,18 +14,31 @@
 </template>
 
 <script>
-export default {
-  name: 'App'
-}
+  import CarouselList from "./components/CarouselList"
+  import FormTest from "./components/FormTest"
+  export default {
+    name: 'App',
+    components:{
+      CarouselList:CarouselList,
+      FormTest:FormTest
+    }
+  }
 </script>
 
 <style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+  body{
+    margin:0px;
+    padding:0px;
+    text-align: center;
+  }
+  #app {
+    font-family: 'Avenir', Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-align: center;
+    color: #2c3e50;
+    margin: 0px auto;
+    width: 100%;
+    max-width: 700px;
+  }
 </style>
