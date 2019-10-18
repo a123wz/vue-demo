@@ -18,26 +18,6 @@ class HttpRequest {
     this.baseUrl = baseUrl
     this.queue = {}
   }
-
-  // getInsideConfig (options) {
-  // let config = {}
-  // if (isInWhiteList(options.url.split(STATISTIC)[1])) {
-  //    config = {
-  //      baseURL: this.baseUrl
-  //   }
-  // } else {
-  //    config = {
-  //     baseURL: this.baseUrl,
-  //     headers: {
-  //       Authorization: getTokenType() + ' ' + getToken()
-  //     }
-  //   }
-  // }
-  //   return {
-  //     baseURL: this.baseUrl
-  //   }
-  // }
-
   destroy (url) {
     delete this.queue[url]
     if (!Object.keys(this.queue).length) {
@@ -54,11 +34,6 @@ class HttpRequest {
           // Spin.show() // 不建议开启，因为界面不友好
         }
         this.queue[url] = true
-        // if (!isInWhiteList(config.url) && getToken()) {
-        //   config.headers.Authorization = 'Bearer' + ' ' + getToken()
-        // } else {
-        //   router.replace('/login')
-        // }
         return config
       },
       error => {
@@ -73,7 +48,6 @@ class HttpRequest {
         if (data.code == '200') {
           return data
         } else if (data.code == '1001006001') {
-          store.dispatch('handleLogOut')
         } else {
           Notice.error({
             title: '未知错误',
@@ -96,13 +70,10 @@ class HttpRequest {
           case 403:
           case 500:
           case 502:
-            Notice.error({
-              title: error.response.status,
-              desc: error.response.data.message
-            })
+            console.log('1')
             break
           default:
-            Notice.error({ title: '提示', desc: error.response.data.message })
+            console.log('1')
             break
         }
 
@@ -112,13 +83,10 @@ class HttpRequest {
   }
 
   request (options) {
-    // axios.defaults.retry = 1
-    // axios.defaults.retryDelay = 10
     const instance = axios.create({
       headers: {'Content-Type': 'application/json;charset=utf-8'},// 设置传输内容的类型和编码
       withCredentials: true// 指定某个请求应该发送凭据。允许客户端携带跨域cookie，也需要此配置
     })
-    // options = Object.assign(this.getInsideConfig(), options)
     options = Object.assign({ baseURL: this.baseUrl }, options)
     this.interceptors(instance, options.url)
     return instance(options)
